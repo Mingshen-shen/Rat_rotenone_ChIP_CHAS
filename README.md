@@ -4,7 +4,7 @@ This is a project deconvolute the bulk H3K27ac data using CHAS,a deconvolution t
 ## Reference
 This project makes use of a deconvolution algorithm called CHAS from the following GitHub repository:
 
-🔗 [Kitty Murphy et al.](https://https://github.com/Marzi-lab/CHAS)
+🔗 [Kitty Murphy et al.](https://github.com/Marzi-lab/CHAS)
 
 ##  Data Availability
 Due to the large size of the dataset (~300 MB), the downstream analysis data including all the objects and values are hosted on **Zenodo**.
