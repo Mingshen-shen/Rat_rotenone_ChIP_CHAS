@@ -1,5 +1,7 @@
+group_vector <- factor（PD_pheno_SN$Group） 
+
 # Constructing a DGEList object
-dge <- DGEList(counts = counts_matrix_SN)
+dge <- DGEList(counts = counts_mat)
 
 # Filter out low-expression peaks (optional)
 keep <- filterByExpr(dge, group = group_vector)
@@ -28,3 +30,4 @@ sig_peaks <- diff_peaks_df[diff_peaks_df$FDR < 0.05, ]
 # Further filtering can be performed based on logFC
 hyper_peaks <- rownames(sig_peaks)[sig_peaks$logFC > 0]
 hypo_peaks  <- rownames(sig_peaks)[sig_peaks$logFC < 0]
+
