@@ -3,7 +3,7 @@ PD_consensusPeaks_SN <- ConsensusPeaks(bulk_SN_df, counts_mat,
 
 refSamples <- data.frame(
   Sample = colnames(counts_ref_matrix),
-  CellType = c("Negative", "Neuron", "Dopaminergic", "Oligodendrocyte"),
+  CellType = c(""Neuron", "Neuron", "Neuron", "Oligodendrocyte", "Oligodendrocyte", "Dopaminergic", "Dopaminergic", "Neg","Neg""),
   stringsAsFactors = FALSE
 )
 
@@ -20,3 +20,4 @@ plot_MF_props(PD_MF_noBAM_SN, sampleLabel=FALSE)
 plot_MF_groups(PD_MF_noBAM_SN, PD_pheno_SN)
 
 plot_correlation(PD_MF_noBAM_SN, celltype_scores_SN, PD_pheno_SN)
+
