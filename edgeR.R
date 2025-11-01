@@ -1,4 +1,4 @@
-group_vector <- factor（PD_pheno_SN$Group） 
+group_vector <- factor(PD_pheno_SN$Group)
 
 # Constructing a DGEList object
 dge <- DGEList(counts = counts_mat)
@@ -10,8 +10,9 @@ dge <- dge[keep, , keep.lib.sizes = FALSE]
 # Standardization
 dge <- calcNormFactors(dge)
 
-# Constructing the design matrix: group + oligo chas covariates
-design <- model.matrix(~ group_vector + oligo_chas_scores)
+# Constructing the design matrix
+design <- model.matrix(~ group_vector)
+
 
 # Estimated Dispersion
 dge <- estimateDisp(dge, design)
@@ -30,4 +31,3 @@ sig_peaks <- diff_peaks_df[diff_peaks_df$FDR < 0.05, ]
 # Further filtering can be performed based on logFC
 hyper_peaks <- rownames(sig_peaks)[sig_peaks$logFC > 0]
 hypo_peaks  <- rownames(sig_peaks)[sig_peaks$logFC < 0]
-
