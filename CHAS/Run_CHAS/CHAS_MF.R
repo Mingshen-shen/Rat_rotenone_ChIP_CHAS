@@ -6,6 +6,7 @@ refSamples <- data.frame(
   CellType = c(""Neuron", "Neuron", "Neuron", "Oligodendrocyte", "Oligodendrocyte", "Dopaminergic", "Dopaminergic", "Neg","Neg""),
   stringsAsFactors = FALSE
 )
+refSamples <- refSamples[order(refSamples$CellType), ]
 
 PD_MF_noBAM_SN <- CelltypeProportion(
   PD_consensusPeaks_SN$newBulkCPM,
@@ -20,4 +21,5 @@ plot_MF_props(PD_MF_noBAM_SN, sampleLabel=FALSE)
 plot_MF_groups(PD_MF_noBAM_SN, PD_pheno_SN)
 
 plot_correlation(PD_MF_noBAM_SN, celltype_scores_SN, PD_pheno_SN)
+
 
