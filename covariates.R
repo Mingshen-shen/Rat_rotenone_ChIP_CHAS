@@ -1,27 +1,13 @@
-# Function: Using 4 cell types as covariates
-group_vector_cortex <- pheno$Group  # or factor(pheno$Group) grouping vector
-
-
-da_neuron_scores <- PD_MF_noBAM_SN$proportions[, c("Dopaminergic", "Neuron")] %>%
-  as.data.frame() %>%
-  tibble::rownames_to_column(var = "Sample")
-
-# Assuming your score table is named score_data
-oligo_score_data <- score_data %>%
+# 1. Here, taking the Oligodendrocyte in CHAS_score as an example, only the Sample and Score are retained.
+oligo_score_df <- celltype_scores_SN %>%
   filter(Celltype == "Oligodendrocyte") %>%
-  select(Sample, Score) %>%
-  rename(oligo_score = Score)
+  select(Sample, Score)
 
-# Merge with pheno by Sample, ensuring consistent order.
-pheno_with_oligo <- pheno %>%
-  left_join(oligo_score_data, by = "Sample")
+# 2. Ensure the sample order matches the column names in the count matrix
+#     (Critical! Otherwise the design will be misaligned)
+oligo_score_df <- oligo_score_df %>%
+  arrange(match(Sample, colnames(counts_matrix_SN)))
 
-# Generate Covariate Vector
-oligo_score_vector <- pheno_with_oligo$oligo_score
+# 3. Generate the covariate vector (sorted by sample order)
+oligo_chas_scores <- oligo_score_df$Score
 
-chas_cortex_scores <- celltype_scores_cortex %>%
-  filter(Celltype %in% c("Dopaminergic", "Neg", "Neuron", "Oligodendrocyte")) %>%
-  pivot_wider(names_from = Celltype, values_from = Score)
-
-pheno_with_chas <- pheno %>%
-  left_join(chas_cortex_scores, by = "Sample")
