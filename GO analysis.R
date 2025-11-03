@@ -7,23 +7,7 @@ celltype_specific_peaks_hypo <- split(hypo_annot$bulkPeak, hypo_annot$Celltype)
 # Ensure that no duplicates exist within each vector.
 celltype_specific_peaks_hypo <- lapply(celltype_specific_peaks_hypo, unique)
 
-# You can create a GRanges object for annotation:
-# Assuming you have the following dataframe
-# peak_coords <- data.frame(chr = ..., start = ..., end = ..., peakID = ...)
 
-gr_peaks <- GRanges(seqnames = peak_coords$chr,
-                    ranges = IRanges(start = peak_coords$start,
-                                     end = peak_coords$end),
-                    peakID = peak_coords$peakID)
-
-# annotating peaks
-peak_annot_SN <- annotatePeak(gr_peaks,
-                              TxDb = TxDb.Rnorvegicus.UCSC.rn6.refGene,
-                              annoDb = "org.Rn.eg.db")
-
-# Convert to a dataframe and extract the necessary information.
-peak_annot_df <- as.data.frame(peak_annot)
-peak_annot_df <- peak_annot_df[, c("peakID", "geneSymbol")]
 
 #Build a list mapping cell type to gene symbol
 hypo_gene_list <- lapply(celltype_specific_peaks_hypo, function(peaks) {
@@ -121,5 +105,6 @@ ggplot(go_top_hypo, aes(x = celltype, y = Description)) +
        y = "GO Term",
        size = "FDR (-log10)",
        shape = "GO Category")
+
 
 
