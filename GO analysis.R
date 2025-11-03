@@ -1,3 +1,4 @@
+# To perform GO analysis on hyper peaks, simply replace “hypo” with “hyper” in the code below.
 # Filter out hypo peaks that appear in the annotation.
 hypo_annot <- peak_annot_SN[peak_annot_SN$bulkPeak %in% hypo_peaks, ]
 
@@ -105,6 +106,7 @@ ggplot(go_top_hypo, aes(x = celltype, y = Description)) +
        y = "GO Term",
        size = "FDR (-log10)",
        shape = "GO Category")
+
 
 
 
