@@ -27,6 +27,8 @@ dar_results$Status <- ifelse(dar_results$FDR < 0.05 & dar_results$logFC > 0, "Hy
 
 
 # Further filtering can be performed based on logFC
-hyper_peaks <- rownames(sig_peaks)[sig_peaks$logFC > 0]
-hypo_peaks  <- rownames(sig_peaks)[sig_peaks$logFC < 0]
+hyper_peaks <- rownames(dar_results[dar_results$Status == "Hyper", ])
+hypo_peaks  <- rownames(dar_results[dar_results$Status == "Hypo", ])
+
+
 
