@@ -6,9 +6,4 @@ This project makes use of a deconvolution algorithm called CHAS from the followi
 
 🔗 [Kitty Murphy et al.](https://github.com/Marzi-lab/CHAS)
 
-##  Data Availability
-Due to the large size of the dataset (~300 MB), the downstream analysis data including all the objects and values are hosted on **Zenodo**.
 
-You can download the data from:
-
-🔗 **Zenodo DOI:https://doi.org/10.5281/zenodo.17293986
