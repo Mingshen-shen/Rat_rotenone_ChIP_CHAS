@@ -17,19 +17,19 @@ celltype_colors <- c(
 )
 # Select significantly enriched genes (e.g., FDR < 0.01 and abs(logFC) > 1)
 label_df <- volcano_df %>%
-  ## ① 只选非灰色（有细胞类型颜色）的点
-  filter(Celltype != "Multiple or Other") %>%      
+  ## ① （Optional）Select only non-gray points (those with cell type colors).
+  filter(Celltype != "Multiple") %>%      
 
-  ## ② 仍然按显著性与效应筛选（阈值可自行调整）
+  ## ② Still filter based on significance and effect size (thresholds can be adjusted as needed)
   filter(FDR < 0.01, abs(logFC) > 1, !is.na(geneSymbol)) %>% 
 
-  ## ③ FDR 最小的排在前面
+  ## ③ FDR: Smallest first
   arrange(FDR) %>%                                  
 
-  ## ④ 同一基因只保留一条
+  ## ④ Only one copy of the same gene is retained.
   distinct(geneSymbol, .keep_all = TRUE) %>%        
 
-  ## ⑤ 最多 10 个标签
+  ## ⑤ Up to 10 tags
   head(10)
 
 # Volcano plot: Color-code cell types and highlight significant gene names.
@@ -47,8 +47,8 @@ ggplot(volcano_df, aes(x = logFC, y = -log10(FDR))) +
   segment.alpha = .9,
   min.segment.length = 0,
   arrow = arrow(
-    type   = "open",                # 空心箭头
-    length = unit(0.025, "npc"),    # ← 更小的箭头
+    type   = "open",                
+    length = unit(0.025, "npc"),    
     ends   = "last",
     angle  = 25
   )
@@ -56,4 +56,5 @@ ggplot(volcano_df, aes(x = logFC, y = -log10(FDR))) +
   geom_hline(yintercept = -log10(0.05), linetype = "dashed") +
   labs(x = "log(FC)", y = "-log10(FDR)", color = "Cell Type") +
   theme_minimal()
+
 
