@@ -9,7 +9,9 @@ library(pheatmap)
   
   # dar_status_vector: Status (Hyper, Hypo, NS) for all peak IDs
 
-  # peak_annot: Cell type to which each peak belongs
+  # peak_annot_SN: Cell type to which each peak belongs
+
+  # universe_peaks_SN: all the peaks
 
 # Constructing a hypergeometric test function
 run_hypergeometric <- function(dar_list, celltype, peak_annot, universe_peaks) {
@@ -35,9 +37,6 @@ run_hypergeometric <- function(dar_list, celltype, peak_annot, universe_peaks) {
 # Set cell types
 celltypes <- c("Neuron", "Oligodendrocyte", "Dopaminergic", "Neg")
 
-# all the peaks
-universe_peaks <- unique(peak_annot$bulkPeak)
-
 # Results table
 enrichment_matrix <- matrix(NA, nrow = 2, ncol = length(celltypes))
 rownames(enrichment_matrix) <- c("Hyper", "Hypo")
@@ -45,12 +44,12 @@ colnames(enrichment_matrix) <- celltypes
 
 # Hyper
 for (ct in celltypes) {
-  enrichment_matrix["Hyper", ct] <- run_hypergeometric(hyper_peaks, ct, peak_annot, universe_peaks)
+  enrichment_matrix["Hyper", ct] <- run_hypergeometric(hyper_peaks, ct, peak_annot_SN, universe_peaks_SN)
 }
 
 # Hypo
 for (ct in celltypes) {
-  enrichment_matrix["Hypo", ct] <- run_hypergeometric(hypo_peaks, ct, peak_annot, universe_peaks)
+  enrichment_matrix["Hypo", ct] <- run_hypergeometric(hypo_peaks, ct, peak_annot_SN, universe_peaks_SN)
 }
 
 # Convert to -log10(p) and perform FDR adjustment
@@ -65,4 +64,6 @@ pheatmap(logFDR_matrix,
          cluster_cols = FALSE,
          color = colorRampPalette(c("white", "red"))(50),
          display_numbers = ifelse(sig_matrix, "*", ""),
+         fontsize_number = 20,
          main = "Hypergeometric Enrichment (-log10 FDR)") 
+
