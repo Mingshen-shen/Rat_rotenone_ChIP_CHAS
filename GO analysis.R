@@ -17,7 +17,7 @@ gr_peaks <- GRanges(seqnames = peak_coords$chr,
                     peakID = peak_coords$peakID)
 
 # annotating peaks
-peak_annot_SN <- annotatePeak(gr_peaks_SN,
+peak_annot_SN <- annotatePeak(gr_peaks,
                               TxDb = TxDb.Rnorvegicus.UCSC.rn6.refGene,
                               annoDb = "org.Rn.eg.db")
 
@@ -64,7 +64,6 @@ bulk_hypo_genes <- peak_annotation_df %>%
   unique()
 bulk_hypo_genes <- bulk_hypo_genes[!is.na(bulk_hypo_genes) & bulk_hypo_genes != ""]
 
-library(org.Rn.eg.db)
 bulk_hypo_entrez <- bitr(bulk_hypo_genes,
                          fromType = "SYMBOL",
                          toType = "ENTREZID",
@@ -98,7 +97,6 @@ go_top_hyper <- go_hyper_df_SN %>%
 go_top$GO_shape <- ifelse(go_top$ONTOLOGY == "BP", 16,
                           ifelse(go_top$ONTOLOGY == "CC", 17, 15))  
 
-library(ggplot2)
 
 # Label
 go_top_SN_hypo$GO_class <- recode(go_top_SN_hypo$ONTOLOGY,
@@ -123,3 +121,4 @@ ggplot(go_top_SN_hypo, aes(x = celltype, y = Description)) +
        y = "GO Term",
        size = "FDR (-log10)",
        shape = "GO Category")
+
