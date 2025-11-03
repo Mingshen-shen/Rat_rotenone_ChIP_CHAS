@@ -27,7 +27,7 @@ peak_annot_df <- peak_annot_df[, c("peakID", "geneSymbol")]
 
 #Build a list mapping cell type to gene symbol
 hypo_gene_list <- lapply(celltype_specific_peaks_hypo, function(peaks) {
-  genes <- peak_annot_df %>%
+  genes <- peak_annotation_df %>%
     filter(peakID %in% peaks) %>%
     pull(geneSymbol) %>%
     unique()
@@ -40,8 +40,8 @@ hypo_entrez_list <- lapply(hypo_gene_list, function(genes) {
 })
 
 # GO enrichment analysis (only performing hypo here) simultaneously converted to a dataframe
-go_hyper_list_SN <- lapply(names(hyper_entrez_list_SN), function(celltype) {
-  genes <- hyper_entrez_list_SN[[celltype]]
+go_hypo_list <- lapply(names(hypo_entrez_list), function(celltype) {
+  genes <- hypo_entrez_list[[celltype]]
   enrichGO(gene = genes,
            OrgDb = org.Rn.eg.db,
            keyType = "ENTREZID",
@@ -53,13 +53,13 @@ go_hyper_list_SN <- lapply(names(hyper_entrez_list_SN), function(celltype) {
     mutate(celltype = celltype)
 })
 
-go_hyper_SN_merged <- do.call(rbind, go_hyper_list_SN)
+go_hypo_merged <- do.call(rbind, go_hypo_list)
 
 
 # Add Bulk GO analysis
 
 bulk_hypo_genes <- peak_annotation_df %>%
-  filter(peakID %in% hypo_peaks_SN) %>%
+  filter(peakID %in% hypo_peaks) %>%
   pull(geneSymbol) %>%
   unique()
 bulk_hypo_genes <- bulk_hypo_genes[!is.na(bulk_hypo_genes) & bulk_hypo_genes != ""]
@@ -69,7 +69,7 @@ bulk_hypo_entrez <- bitr(bulk_hypo_genes,
                          toType = "ENTREZID",
                          OrgDb = org.Rn.eg.db)$ENTREZID
 
-bulk_go <- enrichGO(gene = bulk_hypo_entrez,
+bulk_go_hypo <- enrichGO(gene = bulk_hypo_entrez,
                     OrgDb = org.Rn.eg.db,
                     keyType = "ENTREZID",
                     ont = "ALL",
@@ -78,35 +78,35 @@ bulk_go <- enrichGO(gene = bulk_hypo_entrez,
                     qvalueCutoff = 0.2) %>%
   mutate(celltype = "Bulk")
 
-bulk_go_df <- as.data.frame(bulk_go_SN_hypo)
-bulk_go_df$celltype <- "Bulk"
+bulk_go_hypo_df <- as.data.frame(bulk_go_hypo)
+bulk_go_hypo_df$celltype <- "Bulk"
 
 # Merging bulk and cell types
 
-go_hyper_SN <- rbind(go_hyper_df_SN, bulk_go_df_SN_hyper)
+go_hypo <- rbind(go_hypo_merged, bulk_go_hypo_df)
 
 # Select the top 5 most significant pathways for each cell type
 
-go_top_hyper <- go_hyper_df_SN %>%           
+go_top_hypo <- go_hypo %>%           
   arrange(p.adjust) %>%                      
   group_by(celltype) %>%                     
   slice_head(n = 5) %>%                      
   ungroup()
 
 # Include FDR-characterized size and GO category as graphical markers
-go_top$GO_shape <- ifelse(go_top$ONTOLOGY == "BP", 16,
-                          ifelse(go_top$ONTOLOGY == "CC", 17, 15))  
+go_top_hypo$GO_shape <- ifelse(go_top_hypo$ONTOLOGY == "BP", 16,
+                          ifelse(go_top_hypo$ONTOLOGY == "CC", 17, 15))  
 
 
 # Label
-go_top_SN_hypo$GO_class <- recode(go_top_SN_hypo$ONTOLOGY,
+go_top_hypo$GO_class <- recode(go_top_hypo$ONTOLOGY,
                                   BP = "Biological Process",
                                   CC = "Cellular Component",
                                   MF = "Molecular Function")
 
-go_top_SN_hypo$logFDR <- -log10(go_top_SN_hypo$p.adjust)
+go_top_hypo$logFDR <- -log10(go_top_hypo$p.adjust)
 
-ggplot(go_top_SN_hypo, aes(x = celltype, y = Description)) +
+ggplot(go_top_hypo, aes(x = celltype, y = Description)) +
   geom_point(aes(size = logFDR, shape = GO_class, color = celltype)) +
   scale_shape_manual(values = c("Biological Process" = 16,
                                 "Cellular Component" = 17,
@@ -121,4 +121,5 @@ ggplot(go_top_SN_hypo, aes(x = celltype, y = Description)) +
        y = "GO Term",
        size = "FDR (-log10)",
        shape = "GO Category")
+
 
