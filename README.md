@@ -1,3 +1,21 @@
+## Preprocessing
+This section was done by Mingshen Shen and Bomin Lee jointly. All preprocessing work was conducted on the King’s College London (KCL) HPC cluster.
+
+### Rat reference genome
+mRatBN7.2
+
+### Required tools
+- FastQC (v0.11.5) — quality control  
+- Trim Galore (v0.6.10) — trimming  
+- MultiQC (v1.15) — generating a summary report for all samples  
+- Bowtie2 (v2.5.4) — alignment  
+- Picard (v2.18.29) — removing duplicates  
+- Samtools (v1.22) — merging replicates  
+- MACS2 (v2.2.7.1) — peak calling  
+- Bedtools (v2.31.0) — calculating FRiP scores
+
+## Cell Type-Specific Regulatory Landscapes
+
 ## Deconvolution analysis using CHAS
 This subproject deconvolutes the bulk H3K27ac data using CHAS, a deconvolution tool. So that we can determine which DARs were specific to individual cell types. Furthermore, this approach investigated cell type–specific gene regulatory changes and dysregulated pathways across the substantia nigra (SN) using GO analysis. 
 
