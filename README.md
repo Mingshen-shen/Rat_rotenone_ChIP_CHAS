@@ -70,17 +70,17 @@ This subproject deconvolutes the same bulk H3K27ac data using CHAS, a deconvolut
 - R 4.4.3
 
 **Core R Packages**
-- ChIPseeker 1.42.1
+- dplyr 1.1.4
+- edgeR 4.4.2
+- pheatmap 1.0.13
 - clusterProfiler 4.14.6
 - org.Rn.eg.db 3.20.0
-- TxDb.Rnorvegicus.UCSC.rn7.refGene 3.15.0
-- enrichplot 1.26.6
 - ggplot2 3.5.2
+- ggrepel 0.9.6
 
 **External Tools**
-- Bedtools v2.31.0 — for peak processing  
-- HOMER v4.x — motif analysis  
-- LDSC — Python3 fork: abdenlab/ldsc  
+- Subread v2.0.6 — for constructing matrix for CHAS input  
+
 ## Data Access
 The raw and processed data used in this project are stored on the King’s College London (KCL) High Performance Computing (HPC) system. Due to institutional data governance policies, these datasets are not publicly available.
 
@@ -93,12 +93,13 @@ Researchers who require access to the data for collaborative purposes may contac
 - **Paulina Urbanaviciute**, **Sarah J. Marzi** — Supervision and project guidance.
 
 ## Reference
-This project makes use of a deconvolution algorithm called CHAS from the following GitHub repository:
 
-🔗 [Kitty Murphy et al.](https://github.com/Marzi-lab/CHAS)
+This project makes use of the CHAS deconvolution framework as described in:
 
-The raw data used for CHAS deconvolution were obtained from the following GitHub repository:
+- **Murphy KB et al.** *CHAS infers cell type–specific signatures in bulk brain histone acetylation studies of neurological and psychiatric disorders.* Cell Reports Methods. 2025; 5.
 
-🔗 [Maria Tsalenchuk](https://github.com/Marzi-lab/rotenone_rat_ChIP)
+The rotenone-exposed rat H3K27ac data used for this project were originally reported in:
+
+- **Tsalenchuk M et al.** *Unique nigral and cortical pathways implicated by epigenomic and transcriptional analyses in a rotenone Parkinson’s model.* npj Parkinson's Disease. 2025; 11: 217.
 
 
