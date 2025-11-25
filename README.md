@@ -20,7 +20,7 @@ mRatBN7.2
 - MACS2 (v2.2.7.1) — peak calling  
 - Bedtools (v2.31.0) — calculating FRiP scores
 
-## Cell Type-Specific Regulatory Landscapes
+## 1.Cell Type-Specific Regulatory Landscapes
 This subproject contains comprehensive cell type-specific enrichment analyses in a rat rotenone model of Parkinson’s disease (PD). The analyses integrate genomic, epigenomic, and statistical genetics approaches to identify which brain cell types show the strongest genetic contribution to PD pathogenesis.
 
 ### Aims
@@ -52,7 +52,7 @@ This subproject contains comprehensive cell type-specific enrichment analyses in
 - LDSC — Python3 fork: abdenlab/ldsc  
 
 
-## Deconvolution analysis using CHAS
+## 2.Deconvolution analysis using CHAS
 This subproject deconvolutes the same bulk H3K27ac data using CHAS, a deconvolution tool. So that we can determine which DARs were specific to individual cell types. Furthermore, this approach investigated cell type–specific gene regulatory changes and dysregulated pathways across the substantia nigra (SN) using GO analysis. 
 
 ### Aims
