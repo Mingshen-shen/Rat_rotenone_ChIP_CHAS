@@ -79,7 +79,7 @@ This subproject deconvolutes the same bulk H3K27ac data using CHAS, a deconvolut
 - ggrepel 0.9.6
 
 **External Tools**
-- Subread v2.0.6 — for constructing matrix for CHAS input  
+- Subread v2.0.6 (featureCounts) — for constructing count matrix used as CHAS input 
 
 ## Data Access
 The raw and processed data used in this project are stored on the King’s College London (KCL) High Performance Computing (HPC) system. Due to institutional data governance policies, these datasets are not publicly available.
